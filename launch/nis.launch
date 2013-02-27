@@ -1,0 +1,7 @@
+<launch>
+	<group ns="GUI">
+		<node name="OEE_gui" pkg="legosort" type="OEE_gui.py" output="screen">
+			<param name="timer_value" value="0.1" />
+		</node>
+	</group>
+</launch>
