@@ -1,0 +1,11 @@
+The GUIs are designed in QT 4 Designer
+
+The GUIs are saved in .ui files, which needs to be converted to python files.
+This is done with the pyuic4 commando, like this:
+
+$ pyuic4 OEE.ui -o ../src/OEE.py
+
+Be sure to get the last part pointing to the right file. 
+../src/OEE.py is the resulting Python class you should import into the node.
+
+pyuic4 can be sintalled like this: sudo apt-get install pyqt4-dev-tools
