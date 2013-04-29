@@ -1,0 +1,12 @@
+string id
+string status
+string ticket
+string time
+int64 yellow_bricks
+int64 yellow_bricks_packed
+int64 blue_bricks
+int64 blue_bricks_packed
+int64 red_bricks
+int64 red_bricks_packed
+---
+int64 status

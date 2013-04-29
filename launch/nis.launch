@@ -6,12 +6,21 @@
 	</group> -->
 
 	<group>
+		<node name="MessyServer" pkg="legosort" type="messy_server.py" output="screen">
+			<param name="messy_ip" value="192.168.10.100" />
+			<param name="debug" value="1" />
+			<!-- <param name="order_update_interval" value="1" /> How often should we fetch new orders? In seconds. -->
+			<param name="max_order_requests" value="10" /> <!-- How many orders to get when fetching a new order -->
+		</node>
+	</group>
+
+	<group>
 		<node name="Controller" pkg="legosort" type="legosort_controller.py" output="screen">
 			<param name="messy_ip" value="192.168.10.100" />
-			<param name="max_orders" value="2" /> <!-- How many orders can we work on at the same time -->
+			<param name="max_orders" value="2" />
 			<param name="debug" value="1" />
-			<param name="order_update_interval" value="1" /> <!-- How often should we fetch new orders? In seconds. -->
-			<param name="max_order_requests" value="10" /> <!-- How many orders to get when fetching a new order -->
+			<param name="order_update_interval" value="1" /> 
+			<param name="max_order_requests" value="10" />
 		</node>
 	</group>
 </launch>
