@@ -5,7 +5,7 @@
 struct Brick {
   int timestamp;
   int color;
-  int x_coord;
-  int y_coord;
-  int angle;
+  double x_coord;
+  double y_coord;
+  double angle;
 };
