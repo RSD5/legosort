@@ -24,10 +24,17 @@
 		</node>
 	</group>-->
 	
-	<group>
+<!-- 	<group>
 		<node name="PackMLStatemachine" pkg="legosort" type="packml_statemachine.py" output="screen">
 			<param name="log_topic" value="MessyServer/CellLog" />
 			<param name="debug" value="1" />
+		</node>
+	</group> -->
+
+	<group ns="Vision_NS">
+		<node name="Vision_node" pkg="legosort" type="vision_node" output="screen">
+			<param name="all_bricks_topic" value="all_bricks_topic" />
+			<param name="loop_interval" value="0.1" />
 		</node>
 	</group>
 </launch>

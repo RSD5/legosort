@@ -397,6 +397,19 @@ tests/fast:
 .PHONY : tests/fast
 
 #=============================================================================
+# Target rules for targets named vision_node
+
+# Build rule for target.
+vision_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 vision_node
+.PHONY : vision_node
+
+# fast build rule for target.
+vision_node/fast:
+	$(MAKE) -f CMakeFiles/vision_node.dir/build.make CMakeFiles/vision_node.dir/build
+.PHONY : vision_node/fast
+
+#=============================================================================
 # Target rules for targets named gtest
 
 # Build rule for target.
@@ -421,6 +434,30 @@ gtest_main: cmake_check_build_system
 gtest_main/fast:
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
+
+src/vision/vision_node.o: src/vision/vision_node.cpp.o
+.PHONY : src/vision/vision_node.o
+
+# target to build an object file
+src/vision/vision_node.cpp.o:
+	$(MAKE) -f CMakeFiles/vision_node.dir/build.make CMakeFiles/vision_node.dir/src/vision/vision_node.cpp.o
+.PHONY : src/vision/vision_node.cpp.o
+
+src/vision/vision_node.i: src/vision/vision_node.cpp.i
+.PHONY : src/vision/vision_node.i
+
+# target to preprocess a source file
+src/vision/vision_node.cpp.i:
+	$(MAKE) -f CMakeFiles/vision_node.dir/build.make CMakeFiles/vision_node.dir/src/vision/vision_node.cpp.i
+.PHONY : src/vision/vision_node.cpp.i
+
+src/vision/vision_node.s: src/vision/vision_node.cpp.s
+.PHONY : src/vision/vision_node.s
+
+# target to generate assembly for a file
+src/vision/vision_node.cpp.s:
+	$(MAKE) -f CMakeFiles/vision_node.dir/build.make CMakeFiles/vision_node.dir/src/vision/vision_node.cpp.s
+.PHONY : src/vision/vision_node.cpp.s
 
 # Help Target
 help:
@@ -454,8 +491,12 @@ help:
 	@echo "... test-results"
 	@echo "... test-results-run"
 	@echo "... tests"
+	@echo "... vision_node"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... src/vision/vision_node.o"
+	@echo "... src/vision/vision_node.i"
+	@echo "... src/vision/vision_node.s"
 .PHONY : help
 
 
