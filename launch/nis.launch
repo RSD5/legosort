@@ -36,5 +36,12 @@
 			<param name="all_bricks_topic" value="all_bricks_topic" />
 			<param name="loop_interval" value="0.3" />
 		</node>
+		<node name="Brick_Detector" pkg="legosort" type="brick_detector.py" output="screen">
+			<param name="brick_listen_topic" value="all_bricks_topic" />
+			<param name="brick_publish_topic" value="new_bricks_topic" />
+			<param name="brick_size_tolerance" value="5.0" />
+			<param name="brick_angle_tolerance" value="5.0" />
+			<!-- <param name="update_interval" value="0.1" /> -->
+		</node>
 	</group>
 </launch>
