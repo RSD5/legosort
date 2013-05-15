@@ -3,9 +3,11 @@
 #define RED 3
 
 struct Brick {
-  int timestamp;
+  std::string timestamp;
   int color;
   double x_coord;
   double y_coord;
   double angle;
+  double width;
+  double height;
 };

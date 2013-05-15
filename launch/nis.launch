@@ -34,7 +34,7 @@
 	<group ns="Vision_NS">
 		<node name="Vision_node" pkg="legosort" type="vision_node" output="screen">
 			<param name="all_bricks_topic" value="all_bricks_topic" />
-			<param name="loop_interval" value="0.1" />
+			<param name="loop_interval" value="0.3" />
 		</node>
 	</group>
 </launch>
