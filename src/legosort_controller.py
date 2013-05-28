@@ -6,6 +6,7 @@ roslib.load_manifest('legosort')
 import rospy
 from legosort.srv import *
 from legosort.msg import *
+import time
 
 
 class legosort_controller():
@@ -19,6 +20,8 @@ class legosort_controller():
 		self.debug = int(rospy.get_param('~debug', 5))
 		self.order_update_interval = int(rospy.get_param('~order_update_interval', 5))
 		self.max_order_requests = int(rospy.get_param('~max_order_requests', 5))
+		new_bricks_topic = str(rospy.get_param('~new_bricks_topic', '/Vision_NS/new_bricks_topic'))
+
 
 		# Initialize data
 		self.working_orders = []
@@ -28,11 +31,16 @@ class legosort_controller():
 		# Development only -- Remove in production
 		self.order_finishing_counter = 0
 
+		# Bricks data
+		self.coming_bricks = []
+
 		# Do callbacks here
-		rospy.Timer(rospy.rostime.Duration(self.order_update_interval), self.order_update)
+		# rospy.Timer(rospy.rostime.Duration(self.order_update_interval), self.order_update) # Order update timer
+		# rospy.Timer(rospy.rostime.Duration(self.order_update_interval), self.order_update) # Order update timer
 		
 		# Setup publishers
 		self.logger = rospy.Publisher('CellLog', LogEntry)
+		self.plc_pub = rospy.Publisher('plc', rsd)
 
 		if self.debug:
 			print "Legosort controller initializing"
@@ -40,6 +48,19 @@ class legosort_controller():
 			print "\tMax Orders:", self.max_orders
 			print "\tOrder update interval:", self.order_update_interval
 			print '\tMax order requests:', self.max_order_requests
+
+		print 'Sleeping to wait for the rest of the system...'
+		sleep = 5
+		while sleep > 1:
+			print str(sleep) + '...'
+			time.sleep(1)
+			sleep = sleep - 1
+
+		print 'Starting Conveyer...'
+		msg = rsd()
+		msg.plccommand = 'start'
+		self.plc_pub.publish(msg)
+		print 'Message send.'
 
 		rospy.spin()
 

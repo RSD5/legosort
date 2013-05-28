@@ -5,24 +5,30 @@
 		</node>
 	</group> -->
 
-	<!--<group>
+	<group>
+		<node name="plc_controller" pkg="legosort" type="plc_controller.py" output="screen"></node>
+	</group>
+
+	<group>
 		<node name="MessyServer" pkg="legosort" type="messy_server.py" output="screen">
 			<param name="messy_ip" value="192.168.10.100" />
 			<param name="debug" value="1" />
 			<param name="order_update_interval" value="1" />
 			<param name="max_order_requests" value="10" />
 		</node>
-	</group>-->
+	</group>
 
-	<!--<group>
+	<group>
 		<node name="Controller" pkg="legosort" type="legosort_controller.py" output="screen">
 			<param name="messy_ip" value="192.168.10.100" />
 			<param name="max_orders" value="2" />
 			<param name="debug" value="1" />
-			<param name="order_update_interval" value="1" /> 
 			<param name="max_order_requests" value="10" />
+			<param name="order_update_interval" value="1" /> 
+			<param name="new_bricks_topic" value="/Vision_NS/new_bricks_topic" />
+			<param name="brick_timer_interval" value="0.1" /> 
 		</node>
-	</group>-->
+	</group>
 	
 <!-- 	<group>
 		<node name="PackMLStatemachine" pkg="legosort" type="packml_statemachine.py" output="screen">
@@ -42,7 +48,7 @@
 			<param name="brick_size_tolerance" value="5.0" />
 			<param name="brick_angle_tolerance" value="5.0" />
 			<param name="clean_bricks_interval" value="0.1" />
-			<param name="keep_bricks_for_milliseconds" value="1000" />
+			<param name="keep_bricks_for_milliseconds" value="3000" />
 		</node>
 	</group>
 </launch>

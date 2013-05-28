@@ -49,14 +49,13 @@ class brick_detector():
 		return ms
 
 	def clean_bricks(self, arg):
-		if self.debug:
-			print 'Cleaning bricks'
-		change = 1
 		millis_now = self.millis()
+		# print millis_now
+		change = 1
 		while change:
 			change = 0
 			for i in range(len(self.bricks)):
-				if millis.now - brick.time_milliseconds > self.keep_bricks_for_milliseconds:
+				if millis_now - self.bricks[i].time_milliseconds > self.keep_bricks_for_milliseconds:
 					if self.debug:
 						print 'Deleted brick'
 					del self.bricks[i]
@@ -76,14 +75,14 @@ class brick_detector():
 				# Brick new
 				brick.time_milliseconds = self.millis()
 				self.bricks.append(brick)
-				print '1 New brick', brick.color
+                # print '1 New brick', brick.color
 				self.brick_pub.publish(brick)	
 
 		else:
 			# Brick new
 			brick.time_milliseconds = self.millis()
 			self.bricks.append(brick)
-			print '1 New brick', brick.color
+			#print '1 New brick', brick.color
 			self.brick_pub.publish(brick)
 
 	def is_brick_the_same(self, brick1, brick2):
