@@ -4,10 +4,10 @@ import roslib
 roslib.load_manifest('legosort')
 import rospy
 #from std_msgs.msg import String
-from rsd.rsd.msg import RSDMSG
+from legosort.msg import *
 import serial
 
-COMPORT = '/dev/ttyS1'
+COMPORT = '/dev/ttyUSB1'
 BAUDRATE = 19200
 
 def plc_callback(msg):
@@ -62,7 +62,7 @@ def plc_callback(msg):
 
 def conveyor_listener():
     rospy.init_node('plc_controller')
-    rospy.Subscriber('plc', RSDMSG , plc_callback)
+    rospy.Subscriber('plc', rsd , plc_callback)
     rospy.spin()
     
 

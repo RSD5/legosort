@@ -3,7 +3,7 @@
 from legosort.msg import *
 import rospy
 
-from datetime import datetime
+import datetime
 
 class brick_detector():
 	def __init__(self):
@@ -32,7 +32,7 @@ class brick_detector():
 		self.bricks = []
 
 		# Timing
-		self.start_time = datetime.now()
+		self.start_time = datetime.datetime(2013, 5, 28)
 
 		if self.debug:
 			print "Messy Server Node initialized"
@@ -44,7 +44,7 @@ class brick_detector():
 		rospy.spin()
 	
 	def millis(self):
-		dt = datetime.now() - self.start_time
+		dt = datetime.datetime.now() - self.start_time
 		ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
 		return ms
 
@@ -88,12 +88,12 @@ class brick_detector():
 	def is_brick_the_same(self, brick1, brick2):
 		if brick1.color != brick2.color:
 			return False
-		if abs(brick1.width - brick2.width) > self.brick_size_tolerance:
-			return False
-		if abs(brick1.height - brick2.height) > self.brick_size_tolerance:
-			return False
-		if abs(brick1.angle - brick2.angle) > self.brick_angle_tolerance:
-			return False
+		# if abs(brick1.width - brick2.width) > self.brick_size_tolerance:
+		# 	return False
+		# if abs(brick1.height - brick2.height) > self.brick_size_tolerance:
+		# 	return False
+		# if abs(brick1.angle - brick2.angle) > self.brick_angle_tolerance:
+		# 	return False
 		return True
 
 

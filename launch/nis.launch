@@ -26,7 +26,10 @@
 			<param name="max_order_requests" value="10" />
 			<param name="order_update_interval" value="1" /> 
 			<param name="new_bricks_topic" value="/Vision_NS/new_bricks_topic" />
-			<param name="brick_timer_interval" value="0.1" /> 
+			<param name="brick_timer_interval" value="0.1" />
+			<param name="brick_travel_duration" value="7050" />
+			<param name="brick_travel_duration_error_max" value="100" />
+			<param name="brick_listen_topic" value="all_bricks_topic" />
 		</node>
 	</group>
 	
@@ -45,10 +48,10 @@
 		<node name="Brick_Detector" pkg="legosort" type="brick_detector.py" output="screen">
 			<param name="brick_listen_topic" value="all_bricks_topic" />
 			<param name="brick_publish_topic" value="new_bricks_topic" />
-			<param name="brick_size_tolerance" value="5.0" />
-			<param name="brick_angle_tolerance" value="5.0" />
+			<param name="brick_size_tolerance" value="45.0" />
+			<param name="brick_angle_tolerance" value="10.0" />
 			<param name="clean_bricks_interval" value="0.1" />
-			<param name="keep_bricks_for_milliseconds" value="3000" />
+			<param name="keep_bricks_for_milliseconds" value="10000" />
 		</node>
 	</group>
 </launch>

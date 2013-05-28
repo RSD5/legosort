@@ -7,12 +7,18 @@ import rospy
 from legosort.srv import *
 from legosort.msg import *
 import time
-
+import datetime
 
 class legosort_controller():
 	"""docstring for messy_node"""
 	def __init__(self):
 		rospy.init_node('legosort_controller')
+
+		self.robot_state = 0
+		self.robot_state_counter = 0
+
+		# Timing
+		self.start_time = datetime.datetime(2013, 5, 28)
 
 		# Parameters
 		self.messy_ip = str(rospy.get_param('~messy_ip', '192.168.10.100'))
@@ -20,7 +26,10 @@ class legosort_controller():
 		self.debug = int(rospy.get_param('~debug', 5))
 		self.order_update_interval = int(rospy.get_param('~order_update_interval', 5))
 		self.max_order_requests = int(rospy.get_param('~max_order_requests', 5))
-		new_bricks_topic = str(rospy.get_param('~new_bricks_topic', '/Vision_NS/new_bricks_topic'))
+		self.new_bricks_topic = str(rospy.get_param('~new_bricks_topic', '/Vision_NS/new_bricks_topic'))
+		self.brick_timer_interval = float(rospy.get_param('~brick_timer_interval', 5))
+		self.brick_travel_duration = int(rospy.get_param('~brick_travel_duration', 1000))
+		self.brick_travel_duration_error_max = int(rospy.get_param('~brick_travel_duration_error_max', 10))
 
 
 		# Initialize data
@@ -33,14 +42,18 @@ class legosort_controller():
 
 		# Bricks data
 		self.coming_bricks = []
+		self.bricks_placed = []
 
 		# Do callbacks here
 		# rospy.Timer(rospy.rostime.Duration(self.order_update_interval), self.order_update) # Order update timer
-		# rospy.Timer(rospy.rostime.Duration(self.order_update_interval), self.order_update) # Order update timer
+		rospy.Timer(rospy.rostime.Duration(self.brick_timer_interval), self.robot_state_machine) # Order update timer
 		
 		# Setup publishers
 		self.logger = rospy.Publisher('CellLog', LogEntry)
 		self.plc_pub = rospy.Publisher('plc', rsd)
+
+		# Setup listeners
+		rospy.Subscriber(self.new_bricks_topic, RawBrick, self.add_brick)
 
 		if self.debug:
 			print "Legosort controller initializing"
@@ -49,24 +62,158 @@ class legosort_controller():
 			print "\tOrder update interval:", self.order_update_interval
 			print '\tMax order requests:', self.max_order_requests
 
-		print 'Sleeping to wait for the rest of the system...'
-		sleep = 5
-		while sleep > 1:
-			print str(sleep) + '...'
-			time.sleep(1)
-			sleep = sleep - 1
 
-		print 'Starting Conveyer...'
-		msg = rsd()
-		msg.plccommand = 'start'
-		self.plc_pub.publish(msg)
-		print 'Message send.'
+		
+		self.start_the_conveyer()
+		
+
+		# print 'Sleeping to wait for the rest of the system...'
+		# sleep = 5
+		# while sleep > 1:
+		# 	print str(sleep) + '...'
+		# 	time.sleep(1)
+		# 	sleep = sleep - 1
+
 
 		rospy.spin()
+
+	def robot_state_machine(self, arg):
+		st_start_up = 0
+		st_moving_to_ready = 1
+		st_ready = 2
+		st_grip = 2
+		st_moving_to_place = 3
+		st_place = 4
+		st_waiting_for_grip = 5
+
+		if self.robot_state == st_start_up:
+			print 'State: start_up'
+			self.robot_to_ready()
+			self.robot_state = st_moving_to_ready
+
+		if self.robot_state == st_moving_to_ready:
+			print 'State: moving to ready'
+			if self.robot_state_counter > 40:
+				self.robot_state_counter = 0
+				self.robot_state = st_ready
+			else:
+				self.robot_state_counter = self.robot_state_counter + 1
+
+		if self.robot_state == st_ready:
+			print 'State: ready'
+			if self.check_for_brick() == True:
+				self.robot_grip()
+				self.robot_state = st_waiting_for_grip
+
+		if self.robot_state == st_waiting_for_grip:
+			print 'State: waiting for grip'
+			if self.robot_state_counter > 5:
+				self.robot_state_counter = 0
+				self.robot_place()
+				self.robot_state = st_moving_to_place
+			else:
+				self.robot_state_counter = self.robot_state_counter + 1
+		
+		if self.robot_state == st_moving_to_place:
+			print 'State: moving to place'
+			if self.robot_state_counter > 10:
+				self.robot_state_counter = 0
+				self.robot_state = st_place
+			else:
+				self.robot_state_counter = self.robot_state_counter + 1
+
+		if self.robot_state == st_place:
+			print 'State: place'
+			self.robot_to_ready()
+			self.robot_state = st_moving_to_ready
+
+
+	def robot_to_ready(self):
+		msg = rsd()
+		msg.plccommand = 'robot'
+		msg.boxnumber = 4
+		self.plc_pub.publish(msg)
+
+	def robot_grip(self):
+		msg = rsd()
+		msg.plccommand = 'robot'
+		msg.boxnumber = 5
+		self.plc_pub.publish(msg)
+
+	def robot_place(self):
+		msg = rsd()
+		msg.plccommand = 'robot'
+		msg.boxnumber = 11
+		self.plc_pub.publish(msg)
+
+	def check_for_brick(self):
+		millis_now = self.millis()
+
+		if len(self.coming_bricks) > 0:
+			for i in range(len(self.coming_bricks)):
+				travel = abs(millis_now - self.coming_bricks[i].time_milliseconds)
+				adjusted_travel = self.brick_travel_duration + (3000 - int(self.coming_bricks[i].y_coord))
+				error = abs(travel - adjusted_travel)
+				if  error < self.brick_travel_duration_error_max:
+					self.bricks_placed.append(self.coming_bricks[i])
+					del self.coming_bricks[i]
+					return True
+		return False
+
+	def brick_pos_update(self, arg):
+		millis_now = self.millis()
+
+		if len(self.coming_bricks) > 0:
+			for i in range(len(self.coming_bricks)):
+				travel = abs(millis_now - self.coming_bricks[i].time_milliseconds)
+				adjusted_travel = self.brick_travel_duration + (3000 - int(self.coming_bricks[i].y_coord))
+				error = abs(travel - adjusted_travel)
+				if  error < self.brick_travel_duration_error_max:
+					if self.coming_bricks[i].color == 1:
+						print 'Yellow brick now!!!!!!!!!!!!!!'
+					if self.coming_bricks[i].color == 2:
+						print 'Blue brick now!!!!!!!!!!!!!!'
+					if self.coming_bricks[i].color == 3:
+						print 'Red brick now!!!!!!!!!!!!!!'
+					msg = rsd()
+					msg.plccommand = 'robot'
+					msg.boxnumber = 5
+					self.plc_pub.publish(msg)
+					sleep = 3
+					while sleep > 0:
+						print str(sleep) + '...'
+						time.sleep(1)
+						sleep = sleep - 1
+					msg = rsd()
+					msg.plccommand = 'robot'
+					msg.boxnumber = 4
+					self.plc_pub.publish(msg)
+					del self.coming_bricks[i]
+					break
+
+
+	def millis(self):
+		dt = datetime.datetime.now() - self.start_time
+		ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
+		return ms
+
+	def add_brick(self, brick):
+		self.coming_bricks.append(brick)
 
 	def get_one_order(self):
 		print 'Hep!'
 
+	def start_the_conveyer(self):
+		print 'Starting Conveyer...'
+		msg = rsd()
+		msg.plccommand = 'start'
+		self.plc_pub.publish(msg)
+
+	def stop_the_conveyer(self):
+		print 'Stopping Conveyer...'
+		msg = rsd()
+		msg.plccommand = 'stop'
+		self.plc_pub.publish(msg)
 
 	def order_update(self, event):
 		self.logger.publish('mEvent', 'mTime', 'mCellID', 'mComment') 
