@@ -5,3 +5,4 @@ float64 y_coord
 float64 angle
 float64 width
 float64 height
+uint64 time_milliseconds

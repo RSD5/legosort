@@ -3,6 +3,8 @@
 from legosort.msg import *
 import rospy
 
+from datetime import datetime
+
 class brick_detector():
 	def __init__(self):
 		rospy.init_node('brick_detector')
@@ -13,7 +15,9 @@ class brick_detector():
 		self.debug = int(rospy.get_param('~debug', 0))
 		self.brick_size_tolerance = float(rospy.get_param('~brick_size_tolerance', 0.1))
 		self.brick_angle_tolerance = float(rospy.get_param('~brick_angle_tolerance', 0.1))
-		
+		self.clean_bricks_interval = float(rospy.get_param('~clean_bricks_interval', 0.1))
+		self.keep_bricks_for_milliseconds = int(rospy.get_param('~keep_bricks_for_milliseconds', 1000))
+
 		# Setup listeners
 		rospy.Subscriber(self.brick_listen_topic, RawBrick, self.detector)
 
@@ -22,10 +26,13 @@ class brick_detector():
 
 		# Setup timers
 		# Clean old bricks from self.bricks
-		#rospy.Timer(rospy.rostime.Duration(timer_value), self.timer_callback)
+		rospy.Timer(rospy.rostime.Duration(self.clean_bricks_interval), self.clean_bricks)
 
 		# List for known bricks
 		self.bricks = []
+
+		# Timing
+		self.start_time = datetime.now()
 
 		if self.debug:
 			print "Messy Server Node initialized"
@@ -36,6 +43,26 @@ class brick_detector():
 
 		rospy.spin()
 	
+	def millis(self):
+		dt = datetime.now() - self.start_time
+		ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
+		return ms
+
+	def clean_bricks(self, arg):
+		if self.debug:
+			print 'Cleaning bricks'
+		change = 1
+		millis_now = self.millis()
+		while change:
+			change = 0
+			for i in range(len(self.bricks)):
+				if millis.now - brick.time_milliseconds > self.keep_bricks_for_milliseconds:
+					if self.debug:
+						print 'Deleted brick'
+					del self.bricks[i]
+					change = 1
+					break
+
 	def detector(self, brick):
 		# print 'Brick at angle', data.angle
 
@@ -47,12 +74,14 @@ class brick_detector():
 					break
 			if new:
 				# Brick new
+				brick.time_milliseconds = self.millis()
 				self.bricks.append(brick)
 				print '1 New brick', brick.color
 				self.brick_pub.publish(brick)	
 
 		else:
 			# Brick new
+			brick.time_milliseconds = self.millis()
 			self.bricks.append(brick)
 			print '1 New brick', brick.color
 			self.brick_pub.publish(brick)

@@ -41,7 +41,8 @@
 			<param name="brick_publish_topic" value="new_bricks_topic" />
 			<param name="brick_size_tolerance" value="5.0" />
 			<param name="brick_angle_tolerance" value="5.0" />
-			<!-- <param name="update_interval" value="0.1" /> -->
+			<param name="clean_bricks_interval" value="0.1" />
+			<param name="keep_bricks_for_milliseconds" value="1000" />
 		</node>
 	</group>
 </launch>
