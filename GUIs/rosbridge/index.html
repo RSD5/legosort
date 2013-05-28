@@ -1,150 +1,298 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>GUI, RSD Group 5</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/stateMachine.css" rel="stylesheet">
     <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-
-      @media (max-width: 980px) {
-        /* Enable use of floated navbar text */
-        .navbar-text.pull-right {
-          float: none;
-          padding-left: 5px;
-          padding-right: 5px;
+        body {
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
-      }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        h1 {
+            width: 580px;
+            font-family: verdana,arial,helvetica,sans-serif;
+            font-size: 18px;
+            text-align: center;
+            margin: 40px auto;
+        }
+
+        #container {
+            width: 580px;
+            font-family: verdana,arial,helvetica,sans-serif;
+            font-size: 11px;
+            text-align: center;
+            margin: auto;
+        }
+
+            #container a {
+                display: block;
+                color: #000;
+                text-decoration: none;
+                background-color: #f6f6ff;
+            }
+
+                #container a:hover {
+                    color: #900;
+                    background-color: #f6f6ff;
+                }
+
+        #no1 {
+            width: 190px;
+            line-height: 60px;
+            border: 1px solid #000;
+            margin: auto;
+        }
+
+            #no1 a {
+                height: 60px;
+            }
+
+        #no2 {
+            display: inline;
+            border: 1px solid #000;
+            clear: both;
+            margin-left: 35px;
+            float: left;
+        }
+
+            #no2 a, #no4 a, #no8 a {
+                width: 84px;
+                height: 50px;
+                padding-top: 8px;
+            }
+
+        #no3 {
+            display: inline;
+            border: 1px solid #000;
+            margin-left: 58px;
+            float: left;
+        }
+
+            #no3 a, #no5 a, #no6 a, #no7 a, #no9 a {
+                width: 84px;
+                height: 42px;
+                padding-top: 16px;
+            }
+
+        #no4 {
+            display: inline;
+            border: 1px solid #000;
+            margin-left: 53px;
+            float: left;
+        }
+
+        #no5 {
+            display: inline;
+            border: 1px solid #000;
+            margin-left: 55px;
+            float: left;
+        }
+
+        #no6, #no8 {
+            display: inline;
+            border: 1px solid #000;
+            margin-left: 107px;
+            float: left;
+        }
+
+        #no7, #no9 {
+            display: inline;
+            border: 1px solid #000;
+            margin-left: 169px;
+            float: left;
+        }
+
+        .clear {
+            clear: both;
+        }
+
     </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="../assets/js/html5shiv.js"></script>
-    <![endif]-->
+	  <script src="../assets/js/html5shiv.js"></script>
+	<![endif]-->
 
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
-  <style type="text/css"></style></head>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+    <style type="text/css"></style>
+</head>
 
-  <body>
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Project name</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
+<body>
     <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
-          <div class="hero-unit">
-            <h1>Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a href="#" class="btn btn-primary btn-large">Learn more »</a></p>
-          </div>
-          <div class="row-fluid">
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details »</a></p>
-            </div><!--/span-->
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details »</a></p>
-            </div><!--/span-->
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details »</a></p>
-            </div><!--/span-->
-          </div><!--/row-->
-          <div class="row-fluid">
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details »</a></p>
-            </div><!--/span-->
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details »</a></p>
-            </div><!--/span-->
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details »</a></p>
-            </div><!--/span-->
-          </div><!--/row-->
-        </div><!--/span-->
-      </div><!--/row-->
+        <div class="row-fluid">
+            <div class="span8">
+                <div class="row-fluid">
+                    <img src="img/packml_placeholder.PNG" width="875px" height="500px" />
+                <!--<div class="span9" data-demo-id="stateMachineDemo" data-library="jquery">
+                        <div id="render"></div>
+                        <div class="w" id="stopped">stopped</div>
+                        <div class="w" id="starting">starting</div>
+                        <div class="w" id="idle">idle</div>
+                        <div class="w" id="suspending">suspending</div>
+                        <div class="w" id="suspended">suspended</div>
+                        <div class="w" id="unsuspending">un-suspending</div>
+                        <div class="w" id="execute">execute</div>
+                        <div class="w" id="stopping">stopping</div>
+                        <div class="w" id="aborting">aborting</div>
+                        <div class="w" id="aborted">aborted</div>
+                        <div class="w" id="holding">holding</div>
+                        <div class="w" id="held">held</div>
+                        <div class="w" id="unholding">un-holding</div>
+                        <div class="w" id="completing">completing</div>
+                        <div class="w" id="complete">complete</div>
+                        <div class="w" id="resetting">resetting</div>
+                        <div class="w" id="clearing">clearing</div>
+                    </div>-->
+               <!-- <canvas id="myCanvas" width="875" height="500"></canvas>-->
+            </div>
+            <hr />
+            <div class="row-fluid">
+                <div class="span4">
+                    <button class=" btn btn-large btn-block btn-danger">Stop</button>
+                </div>
+                <div class="span4">
+                    <button class=" btn btn-block btn-large btn-warning">Hold</button>
+                </div>
+                <div class="span4">
+                    <button class=" btn btn-block btn-large btn-success">Start</button>
+                </div>
+            </div>
+        </div>
+        <!--/span-->
+        <div class="span4">
+            <div class="row-fluid">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">OEE</label>
+                        <div class="controls">
+                            <input type="text" id="inputEmail" placeholder="132">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassword">Availability</label>
+                        <div class="controls">
+                            <input type="password" id="inputPassword" placeholder="811">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassword">Performance</label>
+                        <div class="controls">
+                            <input type="password" id="Password1" placeholder="912">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassword">Quality</label>
+                        <div class="controls">
+                            <input type="password" id="Password2" placeholder="990">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr />
+            <!--/span-->
+            <div class="row-fluid">
+                <textarea style="width: 409px" rows="10"></textarea>
+                <!--/span-->
+            </div>
 
-      <hr>
+            <!--/row-->
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
 
-      <footer>
-        <p>© Company 2013</p>
-      </footer>
-
-    </div><!--/.fluid-container-->
+    </div>
+    <!--/.fluid-container-->
 
     <!-- Le javascript
-    ================================================== -->
+	================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/jquery.min.js"></script>
+    <script src="js/eventemitter2.js"></script>
+    <script src="js/roslib.js"></script>
+    <script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
+    <script>
+        /*var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+
+        context.beginPath();
+        context.moveTo(100, 150);
+        context.lineTo(450, 50);
+        context.stroke();*/
+        $(document).ready(function () {
+            var stage = new createjs.Stage("myCanvas");
+            var shape = new createjs.Shape();
+            shape.graphics.beginFill('rgba(255,0,0,1)').drawRoundRect(0, 0, 120, 120, 10);
+            shape2 = new Shape();
+            shape2.graphics.beginFill(Graphics.getRGB(255, 0, 0));
+            shape2.graphics.rect(0, 0, 100, 60);
+            shape2.regX = 50;
+            shape2.regY = 30;
+            shape2.x = stageWidth / 2 - 150;
+            shape2.y = stageHeight / 2;
+            shape2.onPress = pressHandler;
+            stage.addChild(shape2);
+            stage.addChild(shape);
+            stage.update();
+            //var canvas = document.getElementById('myCanvas');
+            //var context = canvas.getContext('2d');
+            //drawState(188, 50, context, true, 'stopped');
+            //drawState(100, 50, context, false, 'starting');
+            //drawState(188, 50, context, true, 'suspending');
+            //drawState(100, 50, context, false, 'suspended');
+            //drawState(188, 50, context, true, 'un-suspending');
+            //drawState(100, 50, context, false, 'execute');
+            //drawState(188, 50, context, true, 'stopping');
+            //drawState(100, 50, context, false, 'aborting');
+            //drawState(188, 50, context, true, 'aborted');
+            //drawState(100, 50, context, false, 'holding');
+            //drawState(188, 50, context, true, 'held');
+            //drawState(100, 50, context, false, 'un-holding');
+            //drawState(188, 50, context, true, 'completing');
+            //drawState(100, 50, context, false, 'complete');
+            //drawState(188, 50, context, true, 'resetting');
+            //drawState(100, 50, context, false, 'clearing');
+        });
+
+        function drawState(x, y, context, active, name) {
+            context.beginPath();
+            //(X, Y, WIDTH, HEIGHT)
+            context.rect(x, y, 200, 30);
+            if (active) {
+                context.fillStyle = '#ea7b27';
+            } else {
+                context.fillStyle = '#ebefef';
+            }
+            context.fill();
+            context.lineWidth = 1;
+            context.strokeStyle = 'black';
+            context.stroke();
+            context.font = 'bold 14pt Calibri';
+            context.fillStyle = 'black';
+            context.fillText(name, (x + 15), (y + 10));
+        }
+
+    </script>
+    <script src="js/jquery-ui.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-	<script src="js/eventemitter2.js"></script>
-	<script src="js/roslib.js"></script>
-</body></html>
+    <script src="js/stateMachineCreate.js"></script>
+
+</body>
+</html>

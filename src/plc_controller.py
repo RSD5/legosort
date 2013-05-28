@@ -12,7 +12,6 @@ BAUDRATE = 19200
 
 def plc_callback(msg):
     ser = serial.Serial(COMPORT, BAUDRATE, timeout=1)
-    ser.open()
     if msg.plccommand.lower() == "start" :
         ser.write('1')
     elif msg.plccommand.lower() == "stop" :
@@ -34,6 +33,26 @@ def plc_callback(msg):
             ser.write('9')
         elif msg.boxnumber == 6:
             ser.write('0')
+        elif msg.boxnumber == 7:
+            ser.write('a')
+        elif msg.boxnumber == 8:
+            ser.write('b')
+        elif msg.boxnumber == 9:
+            ser.write('c')
+        elif msg.boxnumber == 10:
+            ser.write('d')
+        elif msg.boxnumber == 11:
+            ser.write('e')
+        elif msg.boxnumber == 12:
+            ser.write('f')
+        elif msg.boxnumber == 13:
+            ser.write('g')
+        elif msg.boxnumber == 14:
+            ser.write('h')
+        elif msg.boxnumber == 15:
+            ser.write('i')
+        elif msg.boxnumber == 16:
+            ser.write('j')
 
 
     #wait for the output buffer to drain
